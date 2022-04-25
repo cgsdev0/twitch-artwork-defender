@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Painting $1"
+sleep 10
+
+curl 'https://gql.twitch.tv/gql' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US' \
+  -H "Authorization: OAuth ${TWITCH_OAUTH_TOKEN}" \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: text/plain;charset=UTF-8' \
+  -H 'Origin: https://www.twitch.tv' \
+  -H 'Referer: https://www.twitch.tv/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36' \
+  --data-raw '[{"operationName":"RedeemCustomReward","variables":{"input":{"channelID":"422824066","cost":1,"prompt":null,"rewardID":"396533c3-5868-4b8c-a238-27d8d453e87b","textInput":"'$1'","title":"Paint","transactionID":"'$(head -c16 </dev/urandom|xxd -p -u)'"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"d56249a7adb4978898ea3412e196688d4ac3cea1c0c2dfd65561d229ea5dcc42"}}}]' \
+  --compressed
